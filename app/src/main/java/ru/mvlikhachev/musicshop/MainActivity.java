@@ -1,7 +1,7 @@
 package ru.mvlikhachev.musicshop;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -114,17 +114,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void addToCart(View view) {
         Order order = new Order();
-
         order.userName = userNameEditText.getText().toString();
-        Log.d("addToCart", order.userName);
-
         order.goodsName = goodsName;
-        Log.d("addToCart", order.goodsName);
-
         order.quantity = quantity;
-        Log.d("addToCart", "" + order.quantity);
-
         order.orderPrice = quantity * price;
-        Log.d("addToCart", "" + order.orderPrice);
+
+        Intent orderIntent = new Intent(MainActivity.this, OrderActivity.class);
+        orderIntent.putExtra("userName", order.userName);
+        orderIntent.putExtra("goodsName", order.goodsName);
+        orderIntent.putExtra("quantity", order.quantity);
+        orderIntent.putExtra("orderPrice", order.orderPrice);
+        startActivity(orderIntent);
+
     }
 }
