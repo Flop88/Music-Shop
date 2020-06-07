@@ -1,9 +1,11 @@
 package ru.mvlikhachev.musicshop;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,11 +27,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     double price;
 
+    EditText userNameEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        userNameEditText = findViewById(R.id.nameEditText);
+
+        createSpinner();
+        createMap();
+    }
+
+    private void createMap() {
+        goodsMap = new HashMap();
+        goodsMap.put("guitar", 500.0);
+        goodsMap.put("drums", 1500.0);
+        goodsMap.put("keyboard", 1000.0);
+    }
+
+    private void createSpinner() {
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
         spinnerArrayList = new ArrayList();
@@ -41,11 +59,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerArrayList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-
-        goodsMap = new HashMap();
-        goodsMap.put("guitar", 500.0);
-        goodsMap.put("drums", 1500.0);
-        goodsMap.put("keyboard", 1000.0);
     }
 
     public void increaseQuantity(View view) {
@@ -97,5 +110,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public void addToCart(View view) {
+        Order order = new Order();
+
+        order.userName = userNameEditText.getText().toString();
+        Log.d("addToCart", order.userName);
+
+        order.goodsName = goodsName;
+        Log.d("addToCart", order.goodsName);
+
+        order.quantity = quantity;
+        Log.d("addToCart", "" + order.quantity);
+
+        order.orderPrice = quantity * price;
+        Log.d("addToCart", "" + order.orderPrice);
     }
 }
